@@ -19,7 +19,7 @@
 
 ## Overview
 
-This repository contains a comprehensive experimental evaluation comparing four different approaches to agentic search in OpenSearch. Through rigorous testing across 250 query executions, we demonstrate that **tool-based flow agents dramatically outperform traditional approaches**, achieving perfect reliability (0% zero-result failures) and significantly better consistency (73% vs 33-45% for alternatives).
+This repository contains a comprehensive experimental evaluation comparing four different approaches to agentic search in OpenSearch. Through rigorous testing across 200 query executions, we demonstrate that **tool-based flow agents dramatically outperform traditional approaches**, achieving perfect reliability (0% zero-result failures) and significantly better consistency (73% vs 33-45% for alternatives).
 
 **The Core Finding:** Simplifying the LLM's task from "generate complex DSL queries" to "extract parameters from natural language" fundamentally solves the reliability and consistency problems that block production deployment of agentic search.
 
@@ -172,7 +172,7 @@ We designed 5 representative e-commerce queries covering different search capabi
 
 **Execution:**
 - 10 runs per query per approach
-- 250 total query executions (5 queries × 10 runs × 5 pipelines)
+- 200 total query executions (5 queries × 10 runs × 4 pipelines)
 - All pipelines ran in parallel for efficiency
 - Total experiment runtime: ~7 minutes
 
@@ -290,14 +290,14 @@ consistency = mean(similarities)
 
 **Why LLM-as-a-Judge?**
 
-Manual evaluation of 250 query results is:
+Manual evaluation of 200 query results is:
 - Time-consuming (hours of human review)
 - Subjective (inter-rater reliability issues)
 - Not reproducible (can't re-run with different evaluators)
 - Expensive (requires domain expertise)
 
 LLM-as-a-Judge offers:
-- **Scalability:** Evaluate 250 results in minutes
+- **Scalability:** Evaluate 200 results in minutes
 - **Consistency:** Same rubric applied uniformly
 - **Reproducibility:** Deterministic with fixed prompts
 - **Rich feedback:** Structured reasoning about scores
@@ -362,17 +362,22 @@ This structured approach reduces LLM judge variance from ~0.88 standard deviatio
 
 | Metric | Tool-Based (Haiku) | Templates (Haiku) | Raw DSL (Haiku) | Raw DSL (Sonnet) |
 |--------|:------------------:|:-----------------:|:---------------:|:----------------:|
-| **Result Consistency** | **73.1%** | 45.0% | 40.6% | 33.4% |
-| **Zero-Result Rate** | **0.0%** | 12.0% | 36.0% | 24.5% |
-| **Avg Latency** | **1,939ms** | 3,283ms | 2,125ms | 3,438ms |
-| **Success Rate** | **100%** | 100% | 100% | 98.0% |
-| **LLM Judge Quality** | **4.02/5** | 3.04/5 | 3.60/5 | 3.59/5 |
+| **Quantitative** |
+| **Latency** (avg ms) | **1,939** | 3,283 | 2,125 | 3,438 |
+| **Reliability** (failure rate) | **0.0%** | 12.0% | 36.0% | 26.0% |
+| **Consistency** (result overlap) | **73.1%** | 45.0% | 40.6% | 33.4% |
+| **Qualitative (LLM Judge 1-5)** |
+| **Relevance** | **5.00** | 3.00 | 2.06 | 2.71 |
+| **Precision** | **3.82** | 2.17 | 2.13 | 2.26 |
+| **Quality** | **3.15** | 2.70 | 2.85 | 2.66 |
+| **Completeness** | **4.10** | 2.48 | 1.85 | 2.18 |
+| Overall Score | **4.02** | 2.59 | 2.22 | 2.45 |
 
 ### Key Findings
 
 #### 1. Perfect Reliability
 
-**Tool-based achieved 0% zero-result rate across all 250 queries.**
+**Tool-based achieved 0% failure rate across all 200 queries.**
 
 Every single search returned relevant products. No "nothing found" errors that damage user trust.
 
@@ -556,7 +561,7 @@ export AWS_REGION="us-west-2"
 ```bash
 cd scripts
 
-# Step 1: Run experiments (250 queries, ~7 minutes)
+# Step 1: Run experiments (200 queries, ~7 minutes)
 python3 run_experiments_parallel.py
 
 # Step 2: Calculate quantitative metrics
@@ -712,6 +717,6 @@ For questions, feedback, or collaboration inquiries:
 ---
 
 **Last Updated:** April 2026  
-**Experiment Runtime:** 250 queries, ~7 minutes total  
+**Experiment Runtime:** 200 queries, ~7 minutes total  
 **Data Size:** 2.8 MB (results + analysis)  
 **Status:** Complete, production-ready findings

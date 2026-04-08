@@ -194,16 +194,22 @@ We tested **4 different approaches** to understand which performs best for produ
 
 ### Overall Comparison
 
-| Metric | Tool-Based<br>(Haiku) | Search Templates<br>(Haiku) | Raw DSL<br>(Haiku) | Raw DSL<br>(Sonnet) |
-|--------|:---------------------:|:---------------------------:|:------------------:|:-------------------:|
-| **Result Consistency** | **73.1%** ✅ | 45.0% | 40.6% | 33.4% |
-| **Zero-Result Rate** | **0.0%** ✅ | 12.0% | 36.0% ❌ | 24.5% |
-| **Avg Latency** | **1,939ms** ✅ | 3,283ms | 2,125ms | 3,438ms |
-| **Success Rate** | **100%** ✅ | 100% | 100% | 98.0% |
+| Metric | Tool-Based<br>(Haiku) | Templates<br>(Haiku) | Raw DSL<br>(Haiku) | Raw DSL<br>(Sonnet) |
+|--------|:---------------------:|:--------------------:|:------------------:|:-------------------:|
+| **Quantitative** |
+| **Latency** (avg ms) | **1,939** ✅ | 3,283 | 2,125 | 3,438 |
+| **Reliability** (failure rate) | **0.0%** ✅ | 12.0% | 36.0% | 26.0% ❌ |
+| **Consistency** (result overlap) | **73.1%** ✅ | 45.0% | 40.6% | 33.4% |
+| **Qualitative (LLM Judge 1-5)** |
+| **Relevance** | **5.00** ✅ | 3.00 | 2.06 | 2.71 |
+| **Precision** | **3.82** ✅ | 2.17 | 2.13 | 2.26 |
+| **Quality** | **3.15** ✅ | 2.70 | 2.85 | 2.66 |
+| **Completeness** | **4.10** ✅ | 2.48 | 1.85 | 2.18 |
+| Overall Score | **4.02** ✅ | 2.59 | 2.22 | 2.45 |
 
 ### Key Finding #1: Perfect Reliability
 
-**Tool-based approach achieved 0% zero-result rate across 250 queries.**
+**Tool-based approach achieved 0% failure rate across 200 queries.**
 
 This means:
 - Every search returned relevant results
